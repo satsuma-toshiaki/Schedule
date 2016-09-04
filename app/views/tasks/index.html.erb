@@ -1,42 +1,47 @@
-﻿<p id="notice"><%= notice %></p>
-
-<h1>Listing Tasks</h1>
-  <%= form_tag({:action=>"search"}) do %>
-    <%= text_field_tag "search[name]",@word %>  
-    <%= collection_select 'search','user',User.all,:id,:username,{selected: @search_user,include_blank:"全員"} %>
-    <%= collection_select 'search','category',Category.all,:id,:categoryname,{selected: @search_category,include_blank:"全カテゴリ"} %>
-    <%= text_field_tag "search[name]",@search_value %> 
-    <%= submit_tag "検索" %>  
-    <%= link_to "リセット", tasks_path %>  
-  <% end %>  
-<table>
+<br>
+<%= form_tag(:action=>'search') do %>
+  <%= collection_select 'search', 'user', User.all, :id, :username, {selected: @search_user, include_blank: "全員"} %>
+  <%= collection_select 'search', 'category', Category.all, :id, :categoryname, {selected: @search_category, include_blank: "全カテゴリー"} %>
+  <%= text_field_tag "search[name]", @search_value %>
+  <%= submit_tag "検索" %>
+  <%= link_to "リセット", tasks_path %>
+<% end %>
+<br>
+<p id="notice"><%= notice %></p>
+<font size="5" color="black">タスク一覧</font>
+<table style="background-color: paleturquoise">
   <thead>
     <tr>
-      <th>Done</th>
-      <th>Due date</th>
-      <th>Name</th>
-      <th>Category</th>
-      <th>User</th>
-      <th colspan="3"></th>
+      <th><font size="3">状態</font></th>
+      <th><font size="3">期日</font></th>
+      <th><font size="3">タスク名</font></th>
+      <th><font size="3">カテゴリー</font></th>
+      <th><font size="3">ユーザー</font></th>
+      <th colspan="3"></th><br>
     </tr>
   </thead>
 
-  <tbody>
+  <tbody style="background-color: paleturquoise">
     <% @tasks.each do |task| %>
       <tr>
-        <td><%= task.done %></td>
+        <td>
+        <% if task.done == true %>
+          <font color="red">作業中</font>
+        <% else %>
+          <font color="blue">終了</font>
+        <% end %>
+        </td>
         <td><%= task.due_date %></td>
         <td><%= task.name %></td>
         <td><%= task.category.categoryname %></td>
         <td><%= task.user.username %></td>
-        <td><%= link_to 'Show', task %></td>
-        <td><%= link_to 'Edit', edit_task_path(task) %></td>
-        <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to '詳細', task %></td>
+        <td><%= link_to '編集', edit_task_path(task) %></td>
+        <td><%= link_to '削除', task, method: :delete, data: { confirm: "削除してもよろしいですか?" } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
 <br>
-
-<%= link_to 'New Task', new_task_path %>
+<%= link_to 'タスク登録', new_task_path %>
+<br>
