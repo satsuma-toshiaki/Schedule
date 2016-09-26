@@ -1,4 +1,4 @@
-<br>
+﻿<br>
 <%= form_tag(:action=>'search') do %>
   <%= collection_select 'search', 'user', User.all, :id, :username, {selected: @search_user, include_blank: "全員"} %>
   <%= collection_select 'search', 'category', Category.all, :id, :categoryname, {selected: @search_category, include_blank: "全カテゴリー"} %>
@@ -24,6 +24,7 @@
   <tbody style="background-color: paleturquoise">
     <% @tasks.each do |task| %>
       <tr>
+
         <td>
         <% if task.done == true %>
           <font color="red">作業中</font>
@@ -31,7 +32,15 @@
           <font color="blue">終了</font>
         <% end %>
         </td>
-        <td><%= task.due_date %></td>
+
+        <td>
+				<% if (task.due_date) - (Date.today) <= 0 && task.done == true %>
+					<font color="red"><%= task.due_date %></font>
+				<% else %>
+					<font color="black"><%= task.due_date %></font>
+				<% end %>
+				</td>
+
         <td><%= task.name %></td>
         <td><%= task.category.categoryname %></td>
         <td><%= task.user.username %></td>
