@@ -34,10 +34,10 @@
         </td>
 
         <td>
-				<% if (task.due_date) - (Date.today) <= 0 && task.done == true %>
+				<% if task.due_date < Date.today && task.done == true %>
 					<font color="red"><%= task.due_date %></font>
 				<% else %>
-					<font color="black"><%= task.due_date %></font>
+					<%= task.due_date %>
 				<% end %>
 				</td>
 
