@@ -61,6 +61,13 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def search
+    @search_value = params['search']['categoryname']
+    @categories = Category.where("categoryname like '%#{@search_value}%'")
+    render :index
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_category
